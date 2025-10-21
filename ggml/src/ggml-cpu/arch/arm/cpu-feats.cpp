@@ -6,6 +6,8 @@
 #include <sys/auxv.h>
 #elif defined(__APPLE__)
 #include <sys/sysctl.h>
+#elif defined(_WIN32)
+#include <Windows.h>
 #endif
 
 #if !defined(HWCAP2_I8MM)
@@ -53,6 +55,14 @@ struct aarch64_features {
         }
 
         // Apple apparently does not implement SVE yet
+#elif defined(_WIN32)
+        has_dotprod = IsProcessorFeaturePresent(PF_ARM_V82_DP_INSTRUCTIONS_AVAILABLE) != 0;
+        has_fp16_va = IsProcessorFeaturePresent(PF_ARM_V82_FP16_INSTRUCTIONS_AVAILABLE) != 0;
+        has_sve = IsProcessorFeaturePresent(PF_ARM_SVE_INSTRUCTIONS_AVAILABLE) != 0;
+        has_sve2 = IsProcessorFeaturePresent(PF_ARM_SVE2_INSTRUCTIONS_AVAILABLE) != 0;
+        has_i8mm = IsProcessorFeaturePresent(PF_ARM_V82_I8MM_INSTRUCTIONS_AVAILABLE) != 0;
+
+        // TODO : SME
 #endif
     }
 };
