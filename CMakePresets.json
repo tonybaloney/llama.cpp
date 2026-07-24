@@ -70,6 +70,17 @@
     { "name": "arm64-windows-llvm-debug", "inherits": [ "base", "arm64-windows-llvm", "debug" ] },
     { "name": "arm64-windows-llvm-release", "inherits": [ "base", "arm64-windows-llvm", "reldbg" ] },
     { "name": "arm64-windows-llvm+static-release", "inherits": [ "base", "arm64-windows-llvm", "reldbg", "static" ] },
+    {
+        "name": "arm64-windows-llvm-cuda-release",
+        "inherits": [ "base", "arm64-windows-llvm", "reldbg" ],
+        "cacheVariables": {
+            "CMAKE_CUDA_ARCHITECTURES": "native",
+            "CMAKE_CUDA_COMPILER": "$env{CUDA_PATH}/bin/nvcc.exe",
+            "CMAKE_CUDA_HOST_COMPILER": "cl.exe",
+            "GGML_CUDA": "ON",
+            "GGML_OPENMP": "OFF"
+        }
+    },
 
     { "name": "arm64-apple-clang-debug", "inherits": [ "base", "arm64-apple-clang", "debug" ] },
     { "name": "arm64-apple-clang-release", "inherits": [ "base", "arm64-apple-clang", "reldbg" ] },
